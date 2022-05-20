@@ -2,13 +2,13 @@ from machine import Pin
 from umqtt.simple import MQTTClient
 import network
 import time
-from wifi_connect import *
+from wifi_connect import connect
 
 # Test publication e.g. with:
-# mosquitto_pub -t AIS2021 -m "LED on"
+# mosquitto_pub -u ais2022 -P Mauritius -t AIS2022 -m "LED on"
 
-SERVER="192.168.1.36"
-TOPIC="AIS2021"
+SERVER="192.168.0.18"
+TOPIC="AIS2022"
 
 def cmdCallback(topic,payload):
     print(topic,payload)
@@ -21,7 +21,7 @@ userLed = Pin(19,Pin.OUT)
 connect()
 
 print("Connected, starting MQTTClient")
-c = MQTTClient("umqtt_client", SERVER)
+c = MQTTClient("umqtt_client", SERVER,user="ais2022",password="Mauritius")
 c.connect()
 
 c.set_callback(cmdCallback)
