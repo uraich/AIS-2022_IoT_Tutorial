@@ -1,7 +1,19 @@
 from machine import Pin,PWM
 from utime import sleep_ms
+import os
+osVersion=os.uname()
 
-led = PWM(Pin(19))
+# if there is 'spiram' in the machine name then we are on the T7 V1.4 or V1.5
+if osVersion.machine.find('spiram') == -1:
+    print("Running on ESP32 WROOM")
+    _LED_PIN = 2
+else:
+    print("Running on an ESP32 WROVER")
+    _LED_PIN = 19
+    
+led = PWM(Pin(_LED_PIN),Pin.OUT)
+led.freq(1000)
+
 try:
     while True:
         for i in range(1024):
